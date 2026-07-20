@@ -1,22 +1,20 @@
 const editor = document.getElementById('editor');
 const preview = document.getElementById('preview');
 
-// Renderer konfigurieren
+// Renderer für Links (neuer Tab)
 const renderer = new marked.Renderer();
-
-// Links immer in neuem Tab öffnen
 renderer.link = function(href, title, text) {
     return `<a href="${href}" target="_blank" rel="noopener">${text}</a>`;
 };
 
-// Markdown-Optionen setzen
+// Konfiguration
 marked.setOptions({
     renderer: renderer,
-    breaks: true, // Erlaubt einfache Zeilenumbrüche
+    breaks: true,
     gfm: true
 });
 
-// Live-Preview
+// Live-Update
 editor.addEventListener('input', () => {
     preview.innerHTML = marked.parse(editor.value);
 });
@@ -27,7 +25,7 @@ editor.addEventListener('scroll', () => {
     preview.scrollTop = scrollPercentage * (preview.scrollHeight - preview.clientHeight);
 });
 
-// Toolbar-Funktion
+// Toolbar: Text einfügen
 function insertText(startTag, endTag) {
     const start = editor.selectionStart;
     const end = editor.selectionEnd;
@@ -36,7 +34,15 @@ function insertText(startTag, endTag) {
     
     editor.value = text.substring(0, start) + startTag + selection + endTag + text.substring(end);
     editor.focus();
-    
-    // Preview sofort aktualisieren
     preview.innerHTML = marked.parse(editor.value);
+}
+
+// Toolbar: Kopieren
+function copyToClipboard() {
+    navigator.clipboard.writeText(editor.value).then(() => {
+        const btn = document.querySelector('button[onclick="copyToClipboard()"]');
+        const originalText = btn.innerText;
+        btn.innerText = "✓ Kopiert!";
+        setTimeout(() => { btn.innerText = originalText; }, 2000);
+    });
 }
