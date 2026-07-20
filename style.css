@@ -6,8 +6,20 @@ body, html {
 }
 
 .container { display: flex; flex-direction: column; height: 100vh; padding: 20px; box-sizing: border-box; }
+header { color: white; text-align: center; margin-bottom: 10px; }
 
-header { color: white; text-align: center; margin-bottom: 20px; }
+.toolbar {
+    display: flex; gap: 10px; margin-bottom: 10px;
+    padding: 10px; border-radius: 10px;
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.toolbar button {
+    padding: 5px 15px; border-radius: 5px; border: none;
+    background: rgba(255, 255, 255, 0.3); color: white; cursor: pointer; font-weight: bold;
+}
+
+.toolbar button:hover { background: rgba(255, 255, 255, 0.5); }
 
 main { display: flex; flex: 1; gap: 20px; overflow: hidden; }
 
@@ -17,7 +29,7 @@ main { display: flex; flex: 1; gap: 20px; overflow: hidden; }
     backdrop-filter: blur(15px);
     border: 1px solid rgba(255, 255, 255, 0.2);
     box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
-    overflow-y: auto;
+    overflow-y: scroll;
 }
 
 #editor { border: none; outline: none; resize: none; font-family: monospace; font-size: 16px; color: white; }

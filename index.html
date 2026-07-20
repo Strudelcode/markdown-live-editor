@@ -9,9 +9,18 @@
 </head>
 <body>
     <div class="container">
-        <header>
-            <h1>Markdown Live Editor</h1>
-        </header>
+        <header><h1>Markdown Live Editor</h1></header>
+        
+        <div class="toolbar">
+            <button onclick="insertText('**', '**')"><b>B</b></button>
+            <button onclick="insertText('*', '*')"><i>I</i></button>
+            <button onclick="insertText('# ', '')">H1</button>
+            <button onclick="insertText('## ', '')">H2</button>
+            <button onclick="insertText('> ', '')">Quote</button>
+            <button onclick="insertText('- ', '')">List</button>
+            <button onclick="insertText('[Linktext](url)', '')">Link</button>
+        </div>
+
         <main>
             <textarea id="editor" placeholder="Schreibe dein Markdown hier..."></textarea>
             <div id="preview" class="markdown-body"></div>
