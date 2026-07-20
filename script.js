@@ -1,19 +1,33 @@
 const editor = document.getElementById('editor');
 const preview = document.getElementById('preview');
 
-// 1. Live-Preview mit Zeilenumbruch-Support
-editor.addEventListener('input', () => {
-    // { breaks: true } sorgt dafür, dass Zeilenumbrüche im Editor als <br> gerendert werden
-    preview.innerHTML = marked.parse(editor.value, { breaks: true });
+// Renderer konfigurieren
+const renderer = new marked.Renderer();
+
+// Links immer in neuem Tab öffnen
+renderer.link = function(href, title, text) {
+    return `<a href="${href}" target="_blank" rel="noopener">${text}</a>`;
+};
+
+// Markdown-Optionen setzen
+marked.setOptions({
+    renderer: renderer,
+    breaks: true, // Erlaubt einfache Zeilenumbrüche
+    gfm: true
 });
 
-// 2. Synchrones Scrollen
+// Live-Preview
+editor.addEventListener('input', () => {
+    preview.innerHTML = marked.parse(editor.value);
+});
+
+// Synchrones Scrollen
 editor.addEventListener('scroll', () => {
     const scrollPercentage = editor.scrollTop / (editor.scrollHeight - editor.clientHeight);
     preview.scrollTop = scrollPercentage * (preview.scrollHeight - preview.clientHeight);
 });
 
-// 3. Toolbar-Funktion
+// Toolbar-Funktion
 function insertText(startTag, endTag) {
     const start = editor.selectionStart;
     const end = editor.selectionEnd;
@@ -24,5 +38,5 @@ function insertText(startTag, endTag) {
     editor.focus();
     
     // Preview sofort aktualisieren
-    preview.innerHTML = marked.parse(editor.value, { breaks: true });
+    preview.innerHTML = marked.parse(editor.value);
 }
